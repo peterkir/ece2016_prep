@@ -3,6 +3,10 @@
 /.recommenders
 /External Plug-in Libraries
 
+# build files
+/bin/
+/bin_test/
+
 # Editor
 *.swp
 *~
@@ -10,8 +14,6 @@
 # Mac OS detritus
 .DS_Store
 
-# Bnd stuff
-/cnf/eclipse-*/bnd.index
 
 /.gradle/
 /reports/
