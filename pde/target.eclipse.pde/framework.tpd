@@ -1,0 +1,8 @@
+target "framework"
+
+with source requirements
+
+location "http://download.eclipse.org/releases/oxygen" {
+	org.eclipse.equinox.sdk.feature.group
+	org.eclipse.ecf.remoteservice.sdk.feature.feature.group
+}
