@@ -19,6 +19,13 @@ https://www.eclipsecon.org/europe2016/session/building-nano-services-osgi-declar
 - [oomph product.setup file](http://peterkir.github.io/oomph/public/ece2016/product-osgi.idefix.oxygen-ece2016.setup)
 - [oomph project.setup file](http://peterkir.github.io/oomph/public/ece2016/project-ece2016.setup)
 
-https://github.com/peterkir/idefix/blob/gh-pages/
-Debugging via OSGi console, Apache Webconsole
 
+## Tutorial content
+This tutorial is showing the usage of OSGi declarative services.
+It contains projects for Eclipse PDE (Plugin Development Environment) and as bnd/bndtools.
+
+- API definition <code>examples.<pde|bndtools>.service.api</code>
+- simple OSGi service implementation named <code>examples.<pde|bndtools>.inverter</code>
+- configurable OSGi service implementation name <code>examples.<pde|bndtools>.configurable</code>
+
+It explains debugging via OSGi console, Apache Webconsole
