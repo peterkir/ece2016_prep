@@ -1,4 +1,4 @@
-package examples.bndtools.impl.stringmanipulator;
+package examples.bndtools.impl.configurable;
 
 import org.osgi.service.component.annotations.*;
 import org.osgi.service.metatype.annotations.Designate;

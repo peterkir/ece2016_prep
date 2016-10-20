@@ -11,4 +11,4 @@ javac.source: 1.8
 javac.target: 1.8
 
 Bundle-Version: 0.0.0.${tstamp}
-Private-Package: examples.bndtools.impl.stringmanipulator
+Private-Package: examples.bndtools.impl.configurable
