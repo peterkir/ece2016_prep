@@ -5,7 +5,6 @@ EclipseCon Europe 2016 - Tutorial - Building Nano Services with OSGi Declarative
 
 https://www.eclipsecon.org/europe2016/session/building-nano-services-osgi-declarative-services
 
-
 ## Tooling
 - Java 8
 - Eclipse EPP committer package Neon.R1
@@ -13,11 +12,13 @@ https://www.eclipsecon.org/europe2016/session/building-nano-services-osgi-declar
 - Github Repository
 - Gitter Chat
 
-oomph/eclipseInstaller product and project available
-- Installation guide: https://peterkir.github.io/idefix/bootstrap/conference/ece2016/
-- oomph product: http://peterkir.github.io/idefix/oomph/public/ece2016/catalogProducts.setup
-- oomph project: http://peterkir.github.io/idefix/oomph/public/ece2016/catalogProjects.setup
+### full-automated setup of IDEfix Eclipse product and this Github project 
+- [IDEfix Eclipse Installation Guide](https://peterkir.github.io/idefix/bootstrap/conference/ece2016/)
 
+### oomph/eclipseInstaller product and project available
+- [oomph product.setup file](http://peterkir.github.io/oomph/public/ece2016/product-osgi.idefix.oxygen-ece2016.setup)
+- [oomph project.setup file](http://peterkir.github.io/oomph/public/ece2016/project-ece2016.setup)
 
+https://github.com/peterkir/idefix/blob/gh-pages/
 Debugging via OSGi console, Apache Webconsole
 
