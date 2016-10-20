@@ -25,7 +25,7 @@ This tutorial is showing the usage of OSGi declarative services.
 It contains projects for Eclipse PDE (Plugin Development Environment) and as bnd/bndtools.
 
 - API definition <code>examples.&lt;pde|bndtools&gt;.service.api</code>
-- simple OSGi service implementation named <code>examples.<&lt;pde|bndtools&gt;.inverter</code>
-- configurable OSGi service implementation name <code>examples.<&lt;pde|bndtools>&Gt;.configurable</code>
+- simple OSGi service implementation named <code>examples.&lt;pde|bndtools&gt;.inverter</code>
+- configurable OSGi service implementation name <code>examples.&lt;pde|bndtools>&gt;.configurable</code>
 
 It explains debugging via OSGi console, Apache Webconsole
