@@ -10,9 +10,11 @@ import org.osgi.service.component.annotations.Modified;
 import examples.service.api.StringModifier;
 
 @Component(
-		configurationPid="manipulator",
-		configurationPolicy=ConfigurationPolicy.REQUIRE
-)
+	    configurationPid="manipulator",
+	    configurationPolicy=ConfigurationPolicy.REQUIRE,
+	    property= { "service.exported.interfaces=*",
+	                "service.exported.configs=ecf.generic.server" }
+	)
 public class StringManipulator implements StringModifier {
 
 	Map<String, Object> properties;
