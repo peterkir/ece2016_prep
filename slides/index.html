@@ -54,12 +54,12 @@
 </section>
 
 <section id="tooling">
-    <section id="pde_0" data-markdown>
+    <section data-markdown>
     # Tooling
     
     # PDE
     </section>
-    <section id="pde_1" data-markdown>
+    <section data-markdown>
         ### PDE
         * since Eclipse Neon
             * PDE - DS Annotation Support
@@ -70,23 +70,236 @@
             
             [via Eclipse MarketPlace](https://marketplace.eclipse.org/content/declarative-services-annotations-support)
     </section>
-    <section id="pde_2" data-markdown>
-        ### PDE
+    <section data-markdown>
+        ### PDE prerequisites
         * Activate DS Annotations support via preferences
-        ![](images/pde_DS_activation.png) 
+        ![](images/pde/0_DS_activation.png) 
     </section>
-    <section id="bnd_1" data-markdown>
-    # Tooling
-    
-    # bndtools
+    <section data-markdown>
+        # Tooling
+        
+        # bndtools
     </section>
-    <section id="bnd_2" data-markdown>
-    # bndtools
-    
-    # Installation 
-    * [Update site](https://dl.bintray.com/bndtools/bndtools/latest/) or MarketPlace
+    <section data-markdown>
+        # bndtools
+        
+        # Installation 
+        * [instructions](http://bndtools.org/installation.html)
+        * [update site URL](https://dl.bintray.com/bndtools/bndtools/latest/)
+    </section>
+    <section>
+    <h2>Compare bndtools and PDE 1/2</h2>
+		<table>
+			<thead>
+				<tr>
+					<th>topic</th>
+					<th>bndtools</th>
+					<th>PDE</th>
+				</tr>
+			</thead>
+			<tbody>
+                <tr>
+                    <td>Manifest Handling</td>
+					<td>generated</td>
+					<td>explicit editing</td>
+				</tr>
+                <tr>
+                    <td>BSN, im-/export package versions</td>
+					<td>implicit conventions</td>
+					<td>explicit properties</td>
+				</tr>
+				<tr>
+                    <td>Package Imports</td>
+					<td>bytecode-based import calcualation</td>
+					<td>manual triggered import calculation</td>
+				</tr>
+			</tbody>
+		</table>
+    </section>
+    <section>
+    <h2>Compare bndtools and PDE 2/2</h2>
+		<table>
+			<thead>
+				<tr>
+					<th>topic</th>
+					<th>bndtools</th>
+					<th>PDE</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+                    <td>Launch defaults</td>
+					<td>clean,hot bundle-deploy</td>
+					<td>persisted, no update</td>
+				</tr>
+				<tr>
+                    <td>Bundle handling</td>
+					<td>instant bundle creation</td>
+					<td>IDE uses "virtual bundles"</td>
+				</tr>
+				<tr>
+                    <td>one eclipse project</td>
+					<td>can become multiple bundles</td>
+					<td>one bundle</td>
+				</tr>
+			</tbody>
+		</table>
     </section>
 </section>
+
+
+<section>
+    <section data-markdown>
+    #### Excercise 1 - PDE - Simple Service
+    
+    * Service API
+    * Service Implementation
+    * Service Consumer
+    * Launch from IDE
+    * Export and launch standalone
+    </section>
+
+    <section data-markdown>
+    #### Service API
+    
+    * create a bundle for the Service API 
+
+    </section>
+    
+    <section data-markdown>
+    #### PDE - open PDE perspective
+    * switch to the Plug-in Development perspective
+    * open perspective button in upper right corner  
+    * select the "Plug-in Development" perspective
+
+    ![pic1](images/eclipse-perspective-button.png)
+    ![pic2](images/pde/1_pde-perspective-selection.png)
+    </section>
+    <section>
+    <h4>PDE - create project</h4>
+    <ul>
+        <li>select from menu: <code>File -> New -> Plug-in Project</code></li>
+        <li>provide as Project name: <code>examples.pde.service.api</code></li>
+        <img src="images/pde/2_new-plugin-project-1.png" height="440px" />
+        <img src="images/pde/3_new-plugin-project-2.png" height="440px" />
+    </ul>
+    </section>
+
+    <section>
+        <h4>PDE - create API interface package</h4>
+        <p>
+            copy the following snippet and paste it into src folder
+        </p>
+        <pre><code class="hljs" data-trim contenteditable>
+package examples.service.api;
+public interface StringModifier {
+	String modify(String input);
+}
+        </code></pre>
+        <img src="images/pde/4_create-api.png" height="360px" />
+    </section>
+    <section>
+        <h4>PDE - export the API package</h4>
+        <p>
+            Inside the Manifest Editor on the Runtime Tab<br/> export the package with version 1.0.0
+        </p>
+        <img src="images/pde/5_exported-packages_1.png" height="280px" />
+        <img src="images/pde/6_exported-packages_2.png" height="360px" />
+    </section>
+
+    <section>
+        <h4>PDE - Service API Bundle Manifest</h4>
+        <p>
+            You successfully created the Service API Bundle if your MANIFEST.MF look like this.
+        </p>
+        <img src="images/pde/7_ServiceAPI-manifest.png" height="360px" />
+    </section>
+</section>
+
+<section>
+    <section data-markdown>
+        #### Excercise 1 - bndtools - Simple Service
+        
+        * Service API
+        * Service Implementation
+        * Service Consumer
+        * Launch from IDE
+        * Export and launch standalone
+    </section>
+    <section data-markdown>
+        #### bndtools - open bndtools perspective
+        * switch to the Plug-in Development perspective
+        * open perspective button in upper right corner  
+        * select the "Plug-in Development" perspective
+    
+        ![pic1](images/eclipse-perspective-button.png)
+        ![pic2](images/bnd/1_bndtools-perspective-selection.png)
+    </section>
+    <section>
+        <h4>bndtools - create workspace</h4>
+        <p>
+            select from menu:<br>
+            <code>File -> New -> Bnd OSGi Workspace</code><br>
+            <code>GitHub -> bndtools/workspace</code>
+        </p>
+        <img src="images/bnd/2-create-workspace-1.png" height="280px" />
+        <img src="images/bnd/3-create-workspace-2.png" height="280px" />
+        <img src="images/bnd/4-create-workspace-3.png" height="280px" />
+    </section>
+    <section>
+        <h4>bndtools - verify workspace</h4>
+        <p>
+            The Repositories view contains entries, as shown below.
+        </p>
+        <img src="images/bnd/5-bndtools-workspace.png" height="360px" />
+    </section>
+    <section>
+        <h4>bndtools - create API project and interface package</h4>
+        <ul>
+            <li><code>File -> New -> Bnd OSGi Project</code></li>
+            <li>Project Name: <code>examples.bndtools.service.api</code></li>
+            <li>Java Package: <code>examples.bndtools.service.api</code></li>
+            <img src="images/bnd/6-create-api-project_1.png" height="280px" />
+            <img src="images/bnd/7-create-api-project_2.png" height="280px" />
+            <img src="images/bnd/8-create-api-project_3.png" height="280px" />
+        </ul>
+    </section>
+
+    <section>
+    <h4>bndtools - update API interface</h4>
+        <ul>
+            <li>copy the following snippet and paste it into src folder</li>
+            <li>delete the Example*Interface.java files in the package</li>
+        </ul>
+        <pre><code class="hljs" data-trim contenteditable>
+package examples.service.api;
+public interface StringModifier {
+	String modify(String input);
+}
+        </code></pre>
+        <img src="images/pde/4_create-api.png" height="360px" />
+    </section>
+    <section>
+        <h4>bndtools - adding additional Manifest properties</h4>
+        <ul>
+            <li>Inside the Bnd Editor on the Source Tab add<br/> 
+            <code>Bundle-Name: Example Service API</code>
+            </li>
+        </ul>
+        <img src="images/bnd/9-add-manifest-properties.png" height="420px" />
+    </section>
+
+    <section>
+        <h4>bndtools - investigate generated bundle</h4>
+        <ul>
+            <li>you successfully created the Service API Bundle</li>
+            <li>investigate <code>&lt;prj&gt;/generated</code> folder</li>
+        </ul>
+        <img src="images/bnd/10_generated-bundle.png" height="420px" />
+    </section>
+</section>
+
+
 <section id="references">
     <section id="standards" data-markdown>
         ### standards and references
