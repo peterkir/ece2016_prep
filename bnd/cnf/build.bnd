@@ -1,5 +1,5 @@
 # Configure Repositories
--plugin.1.Central: \
+-plugin.01.Central: \
 	aQute.bnd.deployer.repository.wrapper.Plugin; \
 		location = "${build}/cache/wrapper"; \
 		reindex = true, \
@@ -9,19 +9,32 @@
 		location = ~/.bnd/shacache; \
 		index = ${build}/central.json
 
--plugin.2.Local: \
+-plugin.02.Local: \
 	aQute.bnd.deployer.repository.LocalIndexedRepo; \
 		name = Local; \
 		pretty = true; \
 		local = ${build}/local
 
--plugin.3.Templates: \
+-plugin.03.Templates: \
 	aQute.bnd.deployer.repository.LocalIndexedRepo; \
 		name = Templates; \
 		pretty = true; \
 		local = ${build}/templates
 
--plugin.4.Release: \
+-plugin.04.eclipsePlatform: \
+   aQute.bnd.deployer.repository.FixedIndexedRepo; \
+       name      = "Eclipse Platform 4.6.1"; \
+       locations = https://peterkir.github.io/static/obr/eclipse_4.6.1_Platform.xml.gz; \
+       cache     = ${build}/cache
+
+-plugin.05.eclipseSimultaneous: \
+   aQute.bnd.deployer.repository.FixedIndexedRepo; \
+       name      = "Eclipse Simultaneous 4.6.1"; \
+       locations = https://peterkir.github.io/static/obr/eclipse_4.6.1_Simultaneous.xml.gz; \
+       cache     = ${build}/cache
+
+
+-plugin.09.Release: \
 	aQute.bnd.deployer.repository.LocalIndexedRepo; \
 		name = Release; \
 		pretty = true; \

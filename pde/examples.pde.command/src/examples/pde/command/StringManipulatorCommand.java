@@ -15,11 +15,12 @@ import examples.service.api.StringModifier;
 
 @Component(
 		property = { 
-				"osgi.command.scope:String=examples",
+				"osgi.command.scope:String=zExampleModifier",
 				"osgi.command.function:String=modify" 
 		}, 
-		service = StringModifierCommand.class)
-public class StringModifierCommand {
+		service = StringManipulatorCommand.class
+)
+public class StringManipulatorCommand {
 
 	private List<StringModifier> modifier = new ArrayList<>();
 

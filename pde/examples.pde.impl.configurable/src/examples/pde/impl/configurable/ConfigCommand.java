@@ -11,7 +11,7 @@ import org.osgi.service.component.annotations.Reference;
 
 @Component(
 		property = { 
-				"osgi.command.scope:String=examples",
+				"osgi.command.scope:String=zExamplesModifier",
 				"osgi.command.function:String=config" 
 		}, 
 		service = ConfigCommand.class)

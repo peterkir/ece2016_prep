@@ -15,6 +15,6 @@ import org.osgi.annotation.versioning.ConsumerType;
 @ConsumerType
 public interface StringModifier {
 
-	String modify (String message);
-
+	String modify(String input);
+	
 }

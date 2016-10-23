@@ -1,6 +1,6 @@
 eclipse.preferences.version=1
 encoding//src/examples/bndtools/command/StringInverterCommand.java=UTF-8
-encoding//src/examples/bndtools/command/StringManipulator.java=UTF-8
+encoding//src/examples/bndtools/command/StringManipulatorCommand.java=UTF-8
 encoding//test/examples/bndtools/command/ExampleTest.java=UTF-8
 encoding/bnd.bnd=UTF-8
 encoding/launch.bndrun=UTF-8

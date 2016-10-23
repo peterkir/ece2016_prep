@@ -1,15 +1,27 @@
-package examples.service.impl.inverter;
+package examples.bndtools.impl.inverter;
 
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Deactivate;
 
 import examples.service.api.StringModifier;
 
 @Component
-public class StringInverter implements StringModifier {
+public class StringInverterImpl implements StringModifier {
 
+	@Activate
+	void activate() {
+		System.out.println(this.getClass() + " activated");
+	}
+
+	@Deactivate
+	void deactivate() {
+		System.out.println(this.getClass() + " deactivated");
+	}
+	
 	@Override
-	public String modify(String message) {
-		return new StringBuilder(message).reverse().toString();
+	public String modify(String input) {
+		return new StringBuilder(input).reverse().toString();
 	}
 
 }

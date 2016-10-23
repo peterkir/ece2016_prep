@@ -23,4 +23,5 @@ public class StringInverterImpl implements StringModifier {
 	public String modify(String input) {
 		return new StringBuilder(input).reverse().toString();
 	}
+
 }

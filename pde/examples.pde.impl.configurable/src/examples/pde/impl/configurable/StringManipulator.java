@@ -13,28 +13,34 @@ import examples.service.api.StringModifier;
 	    configurationPid="manipulator",
 	    configurationPolicy=ConfigurationPolicy.REQUIRE,
 	    property= { "service.exported.interfaces=*",
-	                "service.exported.configs=ecf.generic.server" }
+	                "service.exported.configs=ecf.generic.server"
+		}
 	)
 public class StringManipulator implements StringModifier {
 
-	Map<String, Object> properties;
+	Map<String, Object> config;
 	
 	@Activate
-	void activate(Map<String, Object> properties) {
-		this.properties = properties;
+	void activate(Map<String, Object> config) {
+		System.out.println(this.getClass() + " de-activated");
+		this.config = config;
 	}
 	
 	@Modified
-	void modified(Map<String, Object> properties) {
-		this.properties = properties;
+	void modified(Map<String, Object> config) {
+		this.config = config;
 	}
-	
+
+	public void deactivate() {
+		System.out.println(this.getClass() + " de-activated");
+	}
+
 	@Override
 	public String modify(String input) {
-		String prefix = (String) properties.getOrDefault(Constants.PREFIX, "");
-		String suffix = (String) properties.getOrDefault(Constants.SUFFIX, "");
-		Integer iteration = (Integer) properties.getOrDefault(Constants.ITERATION, Integer.valueOf(1));
-		Boolean upperCase = (Boolean) properties.getOrDefault(Constants.UPPER_CASE, Boolean.FALSE);
+		String prefix = (String) config.getOrDefault(Constants.PREFIX, "");
+		String suffix = (String) config.getOrDefault(Constants.SUFFIX, "");
+		Integer iteration = (Integer) config.getOrDefault(Constants.ITERATION, Integer.valueOf(1));
+		Boolean upperCase = (Boolean) config.getOrDefault(Constants.UPPER_CASE, Boolean.FALSE);
 		
 		StringBuilder builder = new StringBuilder();
 		builder.append(prefix);

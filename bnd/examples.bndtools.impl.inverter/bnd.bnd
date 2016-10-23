@@ -11,4 +11,4 @@ javac.source: 1.8
 javac.target: 1.8
 
 Bundle-Version: 0.0.0.${tstamp}
-Private-Package: examples.service.impl.inverter
+Private-Package: examples.bndtools.impl.inverter
