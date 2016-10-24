@@ -329,11 +329,11 @@ import examples.service.api.StringModifier;
 
 @Component(
 	property = { 
-		"osgi.command.scope"    + "=zExampleInv",
+		"osgi.command.scope"    + "=zExampleModifier",
 		"osgi.command.function" + "=modify" }, 
-	service = StringInverterCommand.class
+	service = StringModifierCommand.class
 )
-public class StringInverterCommand {
+public class StringModifierCommand {
 
 	private StringModifier modifier;
 
@@ -351,7 +351,7 @@ public class StringInverterCommand {
 
     <section>
         <h4>PDE - @Reference - Event Strategy</h4>
-        <p>update the StringInverterCommand</p>
+        <p>update the StringModifierCommand</p>
         <pre><code class="hljs" data-trim contenteditable>
             @Reference
             void bindStringModifier(StringModifier modifier) {
@@ -737,11 +737,11 @@ import examples.service.api.StringModifier;
 
 @Component(
 	property = { 
-		"osgi.command.scope"    + "=zExampleInv",
+		"osgi.command.scope"    + "=zExampleModifier",
 		"osgi.command.function" + "=modify" }, 
-	service = StringInverterCommand.class
+	service = StringModifierCommand.class
 )
-public class StringInverterCommand {
+public class StringModifierCommand {
 
 	@Reference
 	private StringModifier modifier;
@@ -951,10 +951,10 @@ void deactivate() {
 
 <section id="exec3-configuration">
 
-   <section data-markdown>
+    <section data-markdown>
         #### Excercise 3 - Configuration
         
-        * Configurable Service
+        * **Configurable Service**
         * Configuration Command
         * Update StringModifierCommand
         * Launch IDE
@@ -964,7 +964,7 @@ void deactivate() {
     <section>
         <h4>PDE - create project for Configurable Component</h4>
         <ul>
-            <li>select from menu: <code>File -> New -> Plug-in Project</code></li>
+            <li>select from menu: <code>File -&gt; New -&gt; Plug-in Project</code></li>
             <li>Project name: <code>examples.pde.impl.configurable</code></li>
             <img src="images/pde/50_create-prj-configurable.png" height="440px" />
             <img src="images/pde/51_create-prj-configurable.png" height="440px" />
@@ -984,10 +984,8 @@ void deactivate() {
     </section>
 
     <section>
-        <h4>PDE - define component properties [ DS < 1.3 ]</h4>
-        <p>
-            copy the following snippet and paste it into src folder
-        </p>
+        <h4>PDE - define component properties for DS &lt; 1.3 </h4>
+        <p>copy the following snippet and paste it into src folder</p>
         <pre><code class="hljs" data-trim contenteditable>
 package examples.pde.impl.configurable;
 
@@ -1056,7 +1054,7 @@ public class StringManipulator implements StringModifier {
 		StringBuilder builder = new StringBuilder();
 		builder.append(prefix);
 		
-		for (int i = 0; i < iteration; i++) {
+		for (int i = 0; i &lt; iteration; i++) {
 			builder.append(upperCase ? input.toUpperCase() : input);
 		}
 		builder.append(suffix);
@@ -1064,6 +1062,16 @@ public class StringManipulator implements StringModifier {
 	}
 }
         </code></pre>
+    </section>
+
+    <section data-markdown>
+        #### Excercise 3 - Configuration
+        
+        * Configurable Service
+        * **Configuration Command**
+        * Update StringModifierCommand
+        * Launch IDE
+        * Optional exercise
     </section>
 
     <section data-markdown>
@@ -1159,6 +1167,383 @@ public class ConfigCommand {
 }
         </code></pre>
     </section>
+
+    <section data-markdown>
+        #### Excercise 3 - Configuration
+        
+        * Configurable Service
+        * Configuration Command
+        * **Update StringModifierCommand**
+        * Launch IDE
+        * Optional exercise
+    </section>
+
+    <section data-markdown>
+        #### PDE- Update StringModifierCommand
+    
+        * change the implementation of ```StringModifierCommand``` to reference multiple ```StringModifier```
+        * it needs ```AT_LEAST_ONE``` to be satisfied
+        * add an updated event method to get notified on configuration changes
+        * this method will only get called after the ```StringModifierCommand``` is activated (```modify``` needs to be called once)
+    </section>
+
+    <section>
+        <h4>PDE - Update StringModifierCommand</h4>
+        <p>
+            if you did not implemented it yourself, </br>
+            copy the following snippet and paste it into src folder
+        </p>
+        <pre><code class="hljs" data-trim contenteditable>
+package examples.pde.command;
+
+import java.util.*;
+import org.osgi.service.component.annotations.*;
+import examples.service.api.StringModifier;
+
+@Component(
+		property = { 
+				"osgi.command.scope:String=zExampleModifier",
+				"osgi.command.function:String=modify" 
+		}, 
+		service = StringManipulatorCommand.class
+)
+public class StringManipulatorCommand {
+
+	private List&lt;StringModifier&gt; modifier = new ArrayList&lt;&gt;();
+
+	@Activate
+	void activate() {
+		System.out.println(this.getClass() + " activated");
+	}
+
+	@Deactivate
+	void deactivate() {
+		System.out.println(this.getClass() + " deactivated");
+	}
+	
+	@Reference(
+			cardinality=ReferenceCardinality.AT_LEAST_ONE,
+			policy=ReferencePolicy.DYNAMIC
+	)
+	void bindStringModifier(StringModifier modifier) {
+		this.modifier.add(modifier);
+	}
+	
+	void unbindStringModifier(StringModifier modifier) {
+		this.modifier.remove(modifier);
+	}
+	
+	void updatedStringModifier(StringModifier modifier, Map&lt;String, Object&gt; properties) {
+		System.out.println(modifier.getClass() + " configuration updated");
+		properties.forEach((key, value) -&gt; System.out.println(key + " = " + value));
+	}
+
+	public void modify(String input) {
+		modifier.forEach(m -&gt; System.out.println(m.modify(input)));
+	}
+}
+
+        </code></pre>
+    </section>
+
+    <section data-markdown>
+        #### Excercise 3 - Configuration
+        
+        * Configurable Service
+        * Configuration Command
+        * Update StringModifierCommand
+        * **Launch IDE**
+        * Optional exercise
+    </section>
+
+    <section>
+        <h4>PDE - Launch in IDE</h4>
+        <ul>
+            <li>copy an existing Run Configuration and add the following bundles:
+            <small><table>
+                <thead>
+                    <tr>
+                        <th>bundle</th>
+                        <th>purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>examples.pde.impl.configurable</td>
+                        <td>Application Bundle</td>
+                    </tr>
+                    <tr>
+                        <td>org.eclipse.equinox.cm</td>
+                        <td>Equinox Configuration Admin Service</td>
+                    </tr>
+                    <tr>
+                        <td>org.eclipse.equinox.metatype</td>
+                        <td>Equinox Metatype Service</td>
+                    </tr>
+                </tbody>
+            </table></small>
+            </li>
+            <li>run</li>
+            <li>execute in console: <code>config uppercase true</code></li>
+            <li>execute in console: <code>modify test</code></li>
+            <li>verify the result: <code>modify test</code></li>
+        </ul>
+    </section>
+
+    <section data-markdown>
+        #### Excercise 3 - Configuration
+        
+        * Configurable Service
+        * Configuration Command
+        * Update StringModifierCommand
+        * Launch IDE
+        * **Optional exercise**
+    </section>
+
+    <section>
+        <h4>PDE - Optional exercise 1/2</h4>
+        <ul>
+            <li>stop the <code>examples.pde.impl.configurable</code> bundle</li>
+            <li>verify that the <code>StringModifierCommand</code> gets deactivated</li>
+            <li>stop the <code>examples.pde.impl.configurable</code> bundle</li>
+            <li> change the <code>StringModifier</code> reference to dynamic
+        <pre><code class="hljs" data-trim contenteditable>
+@Reference(
+    cardinality=ReferenceCardinality.AT_LEAST_ONE,
+    policy=ReferencePolicy.DYNAMIC
+)
+void bindStringModifier(StringModifier modifier) {
+	this.modifier.add(modifier);
+}
+        </code></pre>            
+            </li>
+        </ul>
+    </section>
+
+    <section>
+        <h4>PDE - Optional exercise 2/2</h4>
+        <ul>
+            <li>start the application</li>
+            <li>stop the <code>examples.pde.impl.configurable</code> bundle</li>
+            <li>verify that the <code>StringModifierCommand</code> is not deactivated</li>
+        </ul>
+    </section>
+</section>
+
+<section id="exec4-webconsole">
+
+    <section data-markdown>
+        #### Excercise 4 - Webconsole
+    </section>
+
+    <section>
+        <h4>PDE - Launch from IDE with Webconsole</h4>
+        <ul>
+            <li>copy an existing Run Configuration and add the following
+            <small><table>
+                <thead>
+                    <tr>
+                        <th>bundle</th>
+                        <th>purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>javax.servlet</td>
+                        <td>Servlet API</td>
+                    </tr>
+                    <tr>
+                        <td>org.apache.felix.webconsole</td>
+                        <td>Apache Felix Webconsole (all)</td>
+                    </tr>
+                    <tr>
+                        <td>org.eclipse.equinox.http.jetty</td>
+                        <td>Equinox OSGi Http Service</td>
+                    </tr>
+                    <tr>
+                        <td>org.eclipse.equinox.http.servlet</td>
+                        <td>Equinox OSGi Http Service</td>
+                    </tr>
+                    <tr>
+                        <td>org.eclipse.jetty.continuation</td>
+                        <td>Eclipse Jetty</td>
+                    </tr>
+                    <tr>
+                        <td>org.eclipse.jetty.http</td>
+                        <td>Eclipse Jetty</td>
+                    </tr>
+                    <tr>
+                        <td>org.eclipse.jetty.io</td>
+                        <td>Eclipse Jetty</td>
+                    </tr>
+                    <tr>
+                        <td>org.eclipse.jetty.security</td>
+                        <td>Eclipse Jetty</td>
+                    </tr>
+                    <tr>
+                        <td>org.eclipse.jetty.server</td>
+                        <td>Eclipse Jetty</td>
+                    </tr>
+                    <tr>
+                        <td>org.eclipse.jetty.servlet</td>
+                        <td>Eclipse Jetty</td>
+                    </tr>
+                    <tr>
+                        <td>org.eclipse.jetty.util</td>
+                        <td>Eclipse Jetty</td>
+                    </tr>
+                </tbody>
+            </table></small>
+            </li>
+        </ul>
+    </section>
+
+    <section data-markdown>
+        #### PDE - Launch from IDE with Webconsole
+        
+        * switch to the Arguments tab
+        * add to the VM arguments: ```-Dorg.osgi.service.http.port=8888```
+        * run
+        
+        * open a Webbrowser on URL: http://localhost:8888/system/console
+        * enter Webconsole credentials
+            * user: admin
+            * password: admin
+    </section>
+    
+    <section data-markdown>
+        #### PDE - Launch standalone runtime with Webconsole
+        
+        * extract the provide archive <code>http_jetty_webconsole_bundles.zip</code> into e.g. *C:\ece2016\equinox_oxygen_runtime*
+        * start the application with the start_jetty.[bat|sh] script
+        * open a Webbrowser on URL: http://localhost:8888/system/console
+        * enter Webconsole credentials
+            * user: admin
+            * password: admin
+
+        * **Not working? - see next slide**
+    </section>
+
+    <section data-markdown>
+        #### PDE - Launch standalone runtime with Webconsole
+        * Problem analysis Jetty / Webconsole
+            * check if the Jetty Http Service is started
+            * list all installed bundles via console (ss | lb)
+            * determine the bundle id of Jetty Http Service / ```org.eclipse.equinox.http.jetty```
+            * start that bundle via ```start &lt;bundle-id&gt;```
+    </section>
+
+</section>
+
+
+<section id="exec5-rsa">
+
+    <section data-markdown>
+        #### Excercise 5 - Remote Service Admin
+    </section>
+
+    <section>
+        <h4>Remote Service properties</h4>
+        <p>Modify the StringManipulator and add the necessary Remote Service Admin properties 
+        <pre><code class="hljs" data-trim contenteditable>
+@Component(
+    configurationPid="manipulator",
+    configurationPolicy=ConfigurationPolicy.REQUIRE,
+    property= { "service.exported.interfaces=*",
+                "service.exported.configs=ecf.generic.server" }
+)
+public class StringManipulator implements StringModifier {
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Launch from IDE with RSA 1/2</h4>
+        <ul>
+            <li>copy an existing Run Configuration and add the following
+            <small><table>
+                <thead>
+                    <tr>
+                        <th>bundle</th>
+                        <th>purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>javax.servlet</td>
+                        <td>Servlet API</td>
+                    </tr>
+                    <tr>
+                        <td>org.eclipse.core.jobs</td>
+                        <td>Eclipse / Equinox Concurrency</td>
+                    </tr>
+                    <tr>
+                        <td>org.eclipse.equinox.common</td>
+                        <td>Eclipse / Equinox Concurrency</td>
+                    </tr>
+                    <tr>
+                        <td>org.eclipse.equinox.concurrent</td>
+                        <td>Eclipse / Equinox Concurrency</td>
+                    </tr>
+                </tbody>
+            </table></small>
+            </li>
+        </ul>
+    </section>
+
+    <section>
+        <h4>Launch from IDE with RSA 2/2</h4>
+        <ul>
+            <li>additionally add the following bundles from </br>Eclipse Communication Framework</li>
+            <small>
+                        <li>org.eclipse.ecf</li>
+                        <li>org.eclipse.ecf.discovery</li>
+                        <li>org.eclipse.ecf.identity</li>
+                        <li>org.eclipse.ecf.osgi.services.distribution</li>
+                        <li>org.eclipse.ecf.osgi.services.remoteserviceadmin</li>
+                        <li>org.eclipse.ecf.osgi.services.remoteserviceadmin.proxy</li>
+                        <li>org.eclipse.ecf.provider</li>
+                        <li>org.eclipse.ecf.provider.jmdns</li>
+                        <li>org.eclipse.ecf.provider.remoteservice</li>
+                        <li>org.eclipse.ecf.remoteservice</li>
+                        <li>org.eclipse.ecf.remoteservice.asyncproxy</li>
+                        <li>org.eclipse.ecf.sharedobject</li>
+                        <li>org.eclipse.osgi.services.remoteserviceadmin</li>
+            </small>
+        </ul>
+    </section>
+    
+    <section>
+        <h4>Launch in standalone runtime - Equinox/PDE</h4>
+        <small><ul> 
+            <li>extract the provided archive <code>ecf_rsa_bundles.zip</code> to the plugins directory of the created runtime e.g. <i>C:\ece2016\equinox_oxygen_runtime</i></li>
+            <li>export bundles via </br>
+                <code>File -&gt; Export… -&gt; Plug-in Development -&gt; Deployable plug-ins and fragments</code></li>
+            <li>press <code>Next</code></li>
+            <li>select the created example bundles: <code>examples.pde.*</code></li>
+            <li>select the runtime directory (e.g. <i>C:\ece2016\equinox_oxygen_runtime</i>)</li>
+            <li>press <code>Finish</code></li>
+        </ul></small>
+
+        <p>start the application with the start script:</br>
+            <code>start_jetty.[bat|sh]</code>
+        </p>
+    </section>
+    
+    <section>
+        <h4>Launch in standalone runtime - Equinox</h4>
+        <small><ul> 
+            <li>export bundles via </br>
+                <code>File -&gt; Export… -&gt; Plug-in Development -&gt; Deployable plug-ins and fragments</code></li>
+            <li>press <code>Next</code></li>
+            <li>select the created example bundles: <code>examples.pde.*</code></li>
+            <li>select the runtime directory (e.g. <i>C:\ece2016\equinox_oxygen_runtime</i>)</li>
+            <li>press <code>Finish</code></li>
+        </ul></small>
+        <p>start the application with the start script:</br>
+            <code>start_jetty.[bat|sh]</code>
+        </p>
+    </section>
+
 </section>
 
 
