@@ -43,14 +43,11 @@
         <small>created by</small><br>
         Dirk Fauth and Peter Kirschner
     </p>
-    <p>
-    <small>
+    <p><small>
         EclipseCon Europe 2016<br>
         Schubartsaal<br>
         October 25, 2016 - 09:00 to 12:00<br>
-        <a href="?print-pdf">printable version</a><br>
-        </small>
-    </p>
+    </small></p>
 </section>
 
 <section id="tooling">
@@ -181,9 +178,7 @@
 
     <section>
         <h4>PDE - create API interface package</h4>
-        <p>
-            copy the following snippet and paste it into src folder
-        </p>
+        <p>copy the following snippet and paste it into src folder</p>
         <pre><code class="hljs" data-trim contenteditable>
 package examples.service.api;
 public interface StringModifier {
@@ -225,6 +220,7 @@ public interface StringModifier {
     <section>
         <h4>PDE - create project for Service Implementation</h4>
         <ul>
+            <li>select from menu: <code>File -> New -> Plug-in Project</code></li>
             <li>Project name: <code>examples.pde.impl.inverter</code></li>
             <img src="images/pde/10-create-impl-project_1.png" height="440px" />
             <img src="images/pde/11-create-impl-project_2.png" height="440px" />
@@ -296,6 +292,7 @@ public class StringInverterImpl implements StringModifier {
     <section>
         <h4>PDE - create project for the consumer</h4>
         <ul>
+            <li>select from menu: <code>File -> New -> Plug-in Project</code></li>
             <li>Project name: <code>examples.pde.command</code></li>
             <img src="images/pde/20_create-consumer-project_1.png" height="440px" />
             <img src="images/pde/21_create-consumer-project_2.png" height="440px" />
@@ -387,9 +384,133 @@ public class StringInverterCommand {
         * Export and launch standalone
     </section>
 
+    <section>
+        <h4>PDE - create launch configuration 1/2</h4>
+        <ul>
+            <li>select from menu: <code>Run -> Run configurations ...</code></li>
+            <li>create OSGi Framework named <code>simple_runtime</code></li>
+            <li>select the Default Auto-Start: true</li>
+            
+            <li>remove all and then select only the following bundles
+            <small><table>
+                <thead>
+                    <tr>
+                        <th>bundle</th>
+                        <th>purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>examples.pde.command</td>
+                        <td>application service consumer</td>
+                    </tr>
+                    <tr>
+                        <td>examples.pde.impl.inverter</td>
+                        <td>application service implementation</td>
+                    </tr>
+                    <tr>
+                        <td>examples.pde.service.api</td>
+                        <td>application service api</td>
+                    </tr>
+                    <tr>
+                        <td>org.apache.felix.gogo.command</td>
+                        <td>OSGi console commands</td>
+                    </tr>
+                    <tr>
+                        <td>org.apache.felix.gogo.runtime</td>
+                        <td>OSGi console runtime</td>
+                    </tr>
+                    <tr>
+                        <td>org.apache.felix.gogo.shell</td>
+                        <td>OSGi console shell</td>
+                    </tr>
+                    <tr>
+                        <td>org.eclipse.equinox.console</td>
+                        <td>Equinox OSGi console</td>
+                    </tr>
+                    <tr>
+                        <td>org.eclipse.equinox.ds</td>
+                        <td>Equinox Declarative Services</td>
+                    </tr>
+                    <tr>
+                        <td>org.eclipse.equinox.util</td>
+                        <td>Equinox Util bundle</td>
+                    </tr>
+                    <tr>
+                        <td>org.eclipse.osgi</td>
+                        <td>Equinox OSGi runtime</td>
+                    </tr>
+                    <tr>
+                        <td>org.eclipse.osgi.services</td>
+                        <td>Equinox OSGi service interfaces</td>
+                    </tr>
+                </tbody>
+            </table></small>
+            </li>
+        </ul>
+    </section>
 
+    <section>
+        <h4>PDE - create launch configuration 2/2</h4>
+        <ul>
+            <li>your launch should look like</li>
+            <img src="images/pde/30_simple-runtime-launch.png" height="540px" />
+        </ul>
+    </section>
+
+    <section>
+        <h4>PDE - execute launch configuration</h4>
+        <ul>
+            <li>launch the <code>simple_runtime</code></li>
+            <li>enter in the console view <code>modify example</code></li>
+            <img src="images/pde/31_simple-runtime-console.png" height="200px" />
+        </ul>
+    </section>
 </section>
 
+<section id="exec1-pde-export">
+    <section data-markdown>
+        #### Excercise 1 - PDE - Simple Service
+        
+        * Service API
+        * Service Implementation
+        * Service Consumer
+        * Launch from IDE
+        * **Export and launch standalone**
+    </section>
+
+    <section data-markdown>
+        ####PDE - Prepare Equinox standalone runtime
+
+        * extract the provided resources ```equinox_oxygen_runtime.zip``` into e.g. *C:\ece2016\equinox_oxygen_runtime*
+        * No platform specifix launcher!
+        * Customized configurator to support auto starting all installed bundles - [Source on GitHub](https://github.com/fipro78/equinox-autoconfigurator)
+        * Adapted ```configuration/config.ini```
+            * auto-start the auto configurator
+            * ensure the default application is not started
+        * plugins folder contains Equinox bundles
+    </section>
+
+    <section>
+        <h4>PDE - Export application bundles</h4>
+        <ul>
+            <li>export bundles via <code>File -> Export ... -> Plug-in Development -> Deployable plug-ins and fragments</code></li>
+            <li>provide directory <code>C:\ece2016\equinox_oxygen_runtime</code></li>
+        </ul>
+        <img src="images/pde/40_export-plugins.png" height="320px" />
+        <img src="images/pde/41_export-plugins_2.png" height="320px" />
+    </section>
+
+    <section>
+        <h4>PDE - Launch standalone runtime</h4>
+        <ul>
+            <li>open a cmd/shell window inside <code>C:\ece2016\equinox_oxygen_runtime</code></li>
+            <li>launch start.[cmd|sh]</li>
+            <li>type in the console <code>modify example</code></li>
+        </ul>
+        <img src="images/pde/42_standalone-runtime-launch.png" height="220px" />
+    </section>
+</section>
 
 <section id="exec1-bnd-api">
     <section data-markdown>
@@ -568,8 +689,8 @@ public class StringInverterImpl implements StringModifier {
         <h4>bndtools - create consumer project</h4>
         <ul>
             <li><code>File -> New -> Bnd OSGi Project</code></li>
-            <li>Project Name: <code>examples.bndtools.consumer</code></li>
-            <li>Java Package Name: <code>examples.bndtools.command</code></li>
+            <li>Project and Java Package Name: <br>
+                <code>examples.bndtools.command</code></li>
             <img src="images/bnd/30-create-consumer-project_1.png" height="280px" />
             <img src="images/bnd/31-create-consumer-project_2.png" height="280px" />
             <img src="images/bnd/32-create-consumer-project_3.png" height="280px" />
@@ -623,7 +744,68 @@ public class StringInverterCommand {
         <img src="images/bnd/35_consumer-bundle-src.png" height="320px" />
         <img src="images/bnd/36_consumer-bundle-bnd.png" height="320px" />
     </section>
+</section>
 
+<section id="exec1-bnd-consumer">
+    <section data-markdown>
+        #### Excercise 1 - bndtools - Simple Service
+        
+        * Service API
+        * Service Implementation
+        * Service Consumer
+        * **Launch from IDE**
+        * Export and launch standalone
+    </section>
+
+    <section>
+        <h4>bndtools - Launch from IDE - prepare</h4>
+        <ul>
+            <li>Open the file <code>launch.bndrun</code> from project<code>examples.bndtools.impl.inverter</code></li>
+            <li>Select OSGi Framework <code>org.apache.felix.framework;version='[5.4.0,5.4.0]'</code>
+            <li>Select Execution Environment: <code>JavaSE-1.8</code></li>
+            <li>In the Run Requirements add the following bundles
+            <small><table>
+                <thead>
+                    <tr>
+                        <th>bundle</th>
+                        <th>purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>examples.pde.command</td>
+                        <td>application service consumer</td>
+                    </tr>
+                    <tr>
+                        <td>examples.pde.impl.inverter</td>
+                        <td>application service implementation</td>
+                    </tr>
+                    <tr>
+                        <td>examples.pde.service.api</td>
+                        <td>application service api</td>
+                    </tr>
+                <tbody>
+            </table></small>
+            <img src="images/bnd/40_add-bundle-requirements.png" height="280px" />
+        </ul>
+    </section>
+
+    <section>
+        <h4>bndtools - Launch from IDE - resolve</h4>
+        <ul>
+            <li>press the resolve button</li>
+            <img src="images/bnd/41_resolved-bundles.png" height="440px" />
+        </ul>
+    </section>
+
+    <section>
+        <h4>bndtools - Launch from IDE - resolve</h4>
+        <ul>
+            <li>you can now launch this config via <code>Run OSGi</code> </li>
+            <img src="images/bnd/42_bnd-editor-launch.png" height="440px" />
+        </ul>
+    </section>
+    
 </section>
 
 
@@ -661,10 +843,8 @@ public class StringInverterCommand {
 
         </div>
     </div>
-
 		<script src="lib/js/head.min.js"></script>
 		<script src="js/reveal.js"></script>
-
 		<script>
 
 			// More info https://github.com/hakimel/reveal.js#configuration
@@ -689,6 +869,5 @@ public class StringInverterCommand {
 			});
 
 		</script>
-
 	</body>
 </html>
