@@ -73,7 +73,7 @@
     <section data-markdown>
         ### PDE prerequisites
         * Activate DS Annotations support via preferences
-        ![](images/pde/0_DS_activation.png) 
+        ![](images/pde/00_DS_activation.png) 
     </section>
     <section data-markdown>
         # Tooling
@@ -147,42 +147,36 @@
     </section>
 </section>
 
+<section id="exec1-pde-api">
 
-<section>
     <section data-markdown>
-    #### Excercise 1 - PDE - Simple Service
-    
-    * Service API
-    * Service Implementation
-    * Service Consumer
-    * Launch from IDE
-    * Export and launch standalone
+        #### Excercise 1 - PDE - Simple Service
+        
+        * **Service API**
+        * Service Implementation
+        * Service Consumer
+        * Launch from IDE
+        * Export and launch standalone
     </section>
 
     <section data-markdown>
-    #### Service API
+        #### PDE - open PDE perspective
+        * switch to the Plug-in Development perspective
+        * open perspective button in upper right corner  
+        * select the "Plug-in Development" perspective
     
-    * create a bundle for the Service API 
-
+        ![pic1](images/eclipse-perspective-button.png)
+        ![pic2](images/pde/01_pde-perspective-selection.png)
     </section>
     
-    <section data-markdown>
-    #### PDE - open PDE perspective
-    * switch to the Plug-in Development perspective
-    * open perspective button in upper right corner  
-    * select the "Plug-in Development" perspective
-
-    ![pic1](images/eclipse-perspective-button.png)
-    ![pic2](images/pde/1_pde-perspective-selection.png)
-    </section>
     <section>
-    <h4>PDE - create project</h4>
-    <ul>
-        <li>select from menu: <code>File -> New -> Plug-in Project</code></li>
-        <li>provide as Project name: <code>examples.pde.service.api</code></li>
-        <img src="images/pde/2_new-plugin-project-1.png" height="440px" />
-        <img src="images/pde/3_new-plugin-project-2.png" height="440px" />
-    </ul>
+        <h4>PDE - create project for Service API</h4>
+        <ul>
+            <li>select from menu: <code>File -> New -> Plug-in Project</code></li>
+            <li>provide as Project name: <code>examples.pde.service.api</code></li>
+            <img src="images/pde/02_new-plugin-project-1.png" height="440px" />
+            <img src="images/pde/03_new-plugin-project-2.png" height="440px" />
+        </ul>
     </section>
 
     <section>
@@ -196,15 +190,16 @@ public interface StringModifier {
 	String modify(String input);
 }
         </code></pre>
-        <img src="images/pde/4_create-api.png" height="360px" />
+        <img src="images/pde/04_create-api.png" height="360px" />
     </section>
+
     <section>
         <h4>PDE - export the API package</h4>
         <p>
             Inside the Manifest Editor on the Runtime Tab<br/> export the package with version 1.0.0
         </p>
-        <img src="images/pde/5_exported-packages_1.png" height="280px" />
-        <img src="images/pde/6_exported-packages_2.png" height="360px" />
+        <img src="images/pde/05_exported-packages_1.png" height="280px" />
+        <img src="images/pde/06_exported-packages_2.png" height="360px" />
     </section>
 
     <section>
@@ -212,20 +207,201 @@ public interface StringModifier {
         <p>
             You successfully created the Service API Bundle if your MANIFEST.MF look like this.
         </p>
-        <img src="images/pde/7_ServiceAPI-manifest.png" height="360px" />
+        <img src="images/pde/07_ServiceAPI-manifest.png" height="360px" />
     </section>
 </section>
+    
+<section id="exec1-pde-impl">
+    <section data-markdown>
+        #### Excercise 1 - PDE - Simple Service
+        
+        * Service API
+        * **Service Implementation**
+        * Service Consumer
+        * Launch from IDE
+        * Export and launch standalone
+    </section>
 
-<section>
+    <section>
+        <h4>PDE - create project for Service Implementation</h4>
+        <ul>
+            <li>Project name: <code>examples.pde.impl.inverter</code></li>
+            <img src="images/pde/10-create-impl-project_1.png" height="440px" />
+            <img src="images/pde/11-create-impl-project_2.png" height="440px" />
+        </ul>
+    </section>
+
+    <section>
+        <h4>PDE - define dependencies / build path</h4>
+        <ul>
+            <li>Import the following packages:</li>
+            <li><code>examples.service.api;version="[1.0.0,2.0.0)"</code></li>
+            <li><code>org.osgi.service.component.annotations;\
+            version="1.2.0";resolution:=optional"</code></li>
+            <img src="images/pde/12-import-packages.png" height="360px" />
+        </ul>
+    </section>
+
+    <section>
+        <h4>PDE - create implementation</h4>
+        <p>
+            copy the following snippet and paste it into src folder
+        </p>
+        <pre><code class="hljs" data-trim contenteditable>
+package examples.pde.impl.inverter;
+
+import org.osgi.service.component.annotations.Component;
+import examples.service.api.StringModifier;
+
+@Component
+public class StringInverterImpl implements StringModifier {
+	@Override
+	public String modify(String input) {
+		return new StringBuilder(input).reverse().toString();
+	}
+	@Activate
+	void activate() {
+		System.out.println(this.getClass() + " activated");
+	}
+	@Deactivate
+	void deactivate() {
+		System.out.println(this.getClass() + " deactivated");
+	}
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>PDE - Implementation Bundle</h4>
+        <p>
+            You successfully created the Impl Bundle if look like this.
+        </p>
+        <img src="images/pde/13_impl-bundle_1.png" height="320px" />
+        <img src="images/pde/14_impl-bundle_2.png" height="320px" />
+    </section>
+
+</section>
+
+<section id="exec1-pde-consumer">
+    <section data-markdown>
+        #### Excercise 1 - PDE - Simple Service
+        
+        * Service API
+        * Service Implementation
+        * **Service Consumer**
+        * Launch from IDE
+        * Export and launch standalone
+    </section>
+
+    <section>
+        <h4>PDE - create project for the consumer</h4>
+        <ul>
+            <li>Project name: <code>examples.pde.command</code></li>
+            <img src="images/pde/20_create-consumer-project_1.png" height="440px" />
+            <img src="images/pde/21_create-consumer-project_2.png" height="440px" />
+        </ul>
+    </section>
+
+    <section>
+        <h4>PDE - define dependencies / build path</h4>
+        <ul>
+            <li>Import the following packages:</li>
+            <li><code>examples.service.api;version="[1.0.0,2.0.0)"</code></li>
+            <li><code>org.osgi.service.component.annotations;\
+            version="1.2.0";resolution:=optional"</code></li>
+            <img src="images/pde/22-import-packages.png" height="360px" />
+        </ul>
+    </section>
+
+    <section>
+        <h4>PDE - create consumer command</h4>
+        <p>copy the following snippet and paste it into src folder</p>
+        <pre><code class="hljs" data-trim contenteditable>
+package examples.pde.command;
+
+import org.osgi.service.component.annotations.*;
+import examples.service.api.StringModifier;
+
+@Component(
+	property = { 
+		"osgi.command.scope"    + "=zExampleInv",
+		"osgi.command.function" + "=modify" }, 
+	service = StringInverterCommand.class
+)
+public class StringInverterCommand {
+
+	private StringModifier modifier;
+
+	@Reference
+	void bindStringModifier(StringModifier modifier) {
+		this.modifier = modifier;
+	}
+
+	public void modify(String message) {
+		System.out.println(modifier.modify(message));
+	}
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>PDE - Consumer Bundle</h4>
+        <p>Consumer Bundle successfully created if it look like this.</p>
+        <img src="images/pde/23-consumer-bundle_1.png" height="340px" />
+        <img src="images/pde/24-consumer-bundle_2.png" height="340px" />
+    </section>
+
+    <section>
+        <h4>PDE - @Reference - Event Strategy</h4>
+        <p>update the StringInverterCommand</p>
+        <pre><code class="hljs" data-trim contenteditable>
+            @Reference
+            void bindStringModifier(StringModifier modifier) {
+                this.modifier = modifier;
+            }
+            
+            void updatedStringModifier(StringModifier modifier, Map<String, ?> properties) {
+                properties.forEach((k,v) -> {System.out.println(k + " : " + v);} );
+            }
+            
+            void unbindStringModifier(StringModifier modifier) {
+                this.modifier = null;
+            }
+            
+            public void modify(String message) {
+                System.out.println(modifier.modify(message));
+            }        
+        </code></pre>
+    </section>
+    
+</section>
+
+<section id="exec1-pde-launch">
+    <section data-markdown>
+        #### Excercise 1 - PDE - Simple Service
+        
+        * Service API
+        * Service Implementation
+        * Service Consumer
+        * **Launch from IDE**
+        * Export and launch standalone
+    </section>
+
+
+</section>
+
+
+<section id="exec1-bnd-api">
     <section data-markdown>
         #### Excercise 1 - bndtools - Simple Service
         
-        * Service API
+        * **Service API**
         * Service Implementation
         * Service Consumer
         * Launch from IDE
         * Export and launch standalone
     </section>
+
     <section data-markdown>
         #### bndtools - open bndtools perspective
         * switch to the Plug-in Development perspective
@@ -233,8 +409,9 @@ public interface StringModifier {
         * select the "Plug-in Development" perspective
     
         ![pic1](images/eclipse-perspective-button.png)
-        ![pic2](images/bnd/1_bndtools-perspective-selection.png)
+        ![pic2](images/bnd/01_bndtools-perspective-selection.png)
     </section>
+
     <section>
         <h4>bndtools - create workspace</h4>
         <p>
@@ -242,34 +419,36 @@ public interface StringModifier {
             <code>File -> New -> Bnd OSGi Workspace</code><br>
             <code>GitHub -> bndtools/workspace</code>
         </p>
-        <img src="images/bnd/2-create-workspace-1.png" height="280px" />
-        <img src="images/bnd/3-create-workspace-2.png" height="280px" />
-        <img src="images/bnd/4-create-workspace-3.png" height="280px" />
+        <img src="images/bnd/02-create-workspace-1.png" height="280px" />
+        <img src="images/bnd/03-create-workspace-2.png" height="280px" />
+        <img src="images/bnd/04-create-workspace-3.png" height="280px" />
     </section>
+
     <section>
         <h4>bndtools - verify workspace</h4>
         <p>
             The Repositories view contains entries, as shown below.
         </p>
-        <img src="images/bnd/5-bndtools-workspace.png" height="360px" />
+        <img src="images/bnd/05-bndtools-workspace.png" height="360px" />
     </section>
+
     <section>
         <h4>bndtools - create API project and interface package</h4>
         <ul>
             <li><code>File -> New -> Bnd OSGi Project</code></li>
             <li>Project Name: <code>examples.bndtools.service.api</code></li>
             <li>Java Package: <code>examples.bndtools.service.api</code></li>
-            <img src="images/bnd/6-create-api-project_1.png" height="280px" />
-            <img src="images/bnd/7-create-api-project_2.png" height="280px" />
-            <img src="images/bnd/8-create-api-project_3.png" height="280px" />
+            <img src="images/bnd/06-create-api-project_1.png" height="280px" />
+            <img src="images/bnd/07-create-api-project_2.png" height="280px" />
+            <img src="images/bnd/08-create-api-project_3.png" height="280px" />
         </ul>
     </section>
 
     <section>
     <h4>bndtools - update API interface</h4>
         <ul>
-            <li>copy the following snippet and paste it into src folder</li>
             <li>delete the Example*Interface.java files in the package</li>
+            <li>copy the following snippet and paste it into src folder</li>
         </ul>
         <pre><code class="hljs" data-trim contenteditable>
 package examples.service.api;
@@ -277,8 +456,9 @@ public interface StringModifier {
 	String modify(String input);
 }
         </code></pre>
-        <img src="images/pde/4_create-api.png" height="360px" />
+        <img src="images/pde/04_create-api.png" height="360px" />
     </section>
+
     <section>
         <h4>bndtools - adding additional Manifest properties</h4>
         <ul>
@@ -286,7 +466,7 @@ public interface StringModifier {
             <code>Bundle-Name: Example Service API</code>
             </li>
         </ul>
-        <img src="images/bnd/9-add-manifest-properties.png" height="420px" />
+        <img src="images/bnd/09-add-manifest-properties.png" height="420px" />
     </section>
 
     <section>
@@ -297,6 +477,153 @@ public interface StringModifier {
         </ul>
         <img src="images/bnd/10_generated-bundle.png" height="420px" />
     </section>
+</section>
+
+<section id="exec1-bnd-impl">
+    <section data-markdown>
+        #### Excercise 1 - bndtools - Simple Service
+        
+        * Service API
+        * **Service Implementation**
+        * Service Consumer
+        * Launch from IDE
+        * Export and launch standalone
+    </section>
+
+    <section>
+        <h4>bndtools - create implementation project</h4>
+        <ul>
+            <li><code>File -> New -> Bnd OSGi Project</code></li>
+            <li>Project and Java Package Name: <br>
+                <code>examples.bndtools.impl.inverter</code></li>
+            <img src="images/bnd/20-create-impl-project_1.png" height="280px" />
+            <img src="images/bnd/21-create-impl-project_2.png" height="280px" />
+            <img src="images/bnd/22-create-impl-project_3.png" height="280px" />
+        </ul>
+    </section>
+
+    <section>
+        <h4>bndtools - define dependencies / build path</h4>
+        <ul>
+            <li>Inside Bnd Editor on the Build Tab<br/> 
+            <code>examples.bndtools.service.api</code>
+            </li>
+        </ul>
+        <img src="images/bnd/23-define-dependencies.png" height="360px" />
+        <img src="images/bnd/24-define-dependencies_2.png" height="360px" />
+    </section>
+
+    <section>
+    <h4>bndtools - implementation</h4>
+        <ul>
+            <li>delete the Example.java files in the package</li>
+            <li>copy the following snippet and paste it into src folder</li>
+        </ul>
+        <pre><code class="hljs" data-trim contenteditable>
+package examples.bndtools.impl.inverter;
+
+import org.osgi.service.component.annotations.*;
+import examples.service.api.StringModifier;
+
+@Component
+public class StringInverterImpl implements StringModifier {
+	@Override
+	public String modify(String input) {
+		return new StringBuilder(input).reverse().toString();
+	}
+	@Activate
+	void activate() {
+		System.out.println(this.getClass() + " activated");
+	}
+	@Deactivate
+	void deactivate() {
+		System.out.println(this.getClass() + " deactivated");
+	}
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>bndtools - investigate generated bundle</h4>
+        <ul>
+            <li>you successfully created the impl bundle it looks like this</li>
+        </ul>
+        <img src="images/bnd/25_impl-bundle-bnd.png" height="320px" />
+        <img src="images/bnd/26_impl-bundle-generated.png" height="320px" />
+    </section>
+</section>
+
+<section id="exec1-bnd-consumer">
+    <section data-markdown>
+        #### Excercise 1 - bndtools - Simple Service
+        
+        * Service API
+        * Service Implementation
+        * **Service Consumer**
+        * Launch from IDE
+        * Export and launch standalone
+    </section>
+
+    <section>
+        <h4>bndtools - create consumer project</h4>
+        <ul>
+            <li><code>File -> New -> Bnd OSGi Project</code></li>
+            <li>Project Name: <code>examples.bndtools.consumer</code></li>
+            <li>Java Package Name: <code>examples.bndtools.command</code></li>
+            <img src="images/bnd/30-create-consumer-project_1.png" height="280px" />
+            <img src="images/bnd/31-create-consumer-project_2.png" height="280px" />
+            <img src="images/bnd/32-create-consumer-project_3.png" height="280px" />
+        </ul>
+    </section>
+
+    <section>
+        <h4>bndtools - define dependencies / build path</h4>
+        <ul>
+            <li>Inside Bnd Editor on the Build Tab</br>
+            <code>examples.bndtools.service.api</code>
+            </li>
+        </ul>
+        <img src="images/bnd/33-define-dependencies.png" height="360px" />
+        <img src="images/bnd/34-define-dependencies_2.png" height="360px" />
+    </section>
+
+    <section>
+    <h4>bndtools - consumer implementation</h4>
+        <ul>
+            <li>delete the Example.java files in the package</li>
+            <li>copy the following snippet and paste it into src folder</li>
+        </ul>
+        <pre><code class="hljs" data-trim contenteditable>
+package examples.bndtools.command;
+import org.osgi.service.component.annotations.*;
+import examples.service.api.StringModifier;
+
+@Component(
+	property = { 
+		"osgi.command.scope"    + "=zExampleInv",
+		"osgi.command.function" + "=modify" }, 
+	service = StringInverterCommand.class
+)
+public class StringInverterCommand {
+
+	@Reference
+	private StringModifier modifier;
+
+	public void modify(String message) {
+		System.out.println(modifier.modify(message));
+	}
+}        </code></pre>
+    </section>
+
+    <section>
+        <h4>bndtools - investigate generated bundle</h4>
+        <ul>
+            <li>consumer bundle is successfully created if it looks like this</li>
+        </ul>
+        <img src="images/bnd/35_consumer-bundle-src.png" height="320px" />
+        <img src="images/bnd/36_consumer-bundle-bnd.png" height="320px" />
+    </section>
+
 </section>
 
 
