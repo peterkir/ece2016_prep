@@ -230,19 +230,29 @@ public interface StringModifier {
     <section>
         <h4>PDE - define dependencies / build path</h4>
         <ul>
-            <li>Import the following packages:</li>
-            <li><code>examples.service.api;version="[1.0.0,2.0.0)"</code></li>
-            <li><code>org.osgi.service.component.annotations;\
-            version="1.2.0";resolution:=optional"</code></li>
-            <img src="images/pde/12-import-packages.png" height="360px" />
+            <li>Import package: <code>examples.service.api</code></li>
+            <li>Specify the upper bound version: <code>2.0.0</code></li>
+            <li>Import package: <code>org.osgi.service.component.annotations</code></li>
+            <li>Specify resolution: <code>optional</code></li>
+            <img src="images/pde/12-import-packages_2.png" height="280px" />
+            <img src="images/pde/12-import-packages_3.png" height="280px" />
+        </ul>
+    </section>
+
+    <section>
+        <h4>PDE - define dependencies / build path</h4>
+        <ul>
+            <img src="images/pde/12-import-packages.png" height="580px"/>
         </ul>
     </section>
 
     <section>
         <h4>PDE - create implementation</h4>
-        <p>
-            copy the following snippet and paste it into src folder
-        </p>
+        <ul>
+            <li>copy the following snippet and paste it into src folder</li>
+            <li>after the paste organize the imports </br>
+            <code>Source -> Organize imports</code></li>
+        </ul>
         <pre><code class="hljs" data-trim contenteditable>
 package examples.pde.impl.inverter;
 
@@ -254,14 +264,6 @@ public class StringInverterImpl implements StringModifier {
 	@Override
 	public String modify(String input) {
 		return new StringBuilder(input).reverse().toString();
-	}
-	@Activate
-	void activate() {
-		System.out.println(this.getClass() + " activated");
-	}
-	@Deactivate
-	void deactivate() {
-		System.out.println(this.getClass() + " deactivated");
 	}
 }
         </code></pre>
@@ -302,12 +304,18 @@ public class StringInverterImpl implements StringModifier {
     <section>
         <h4>PDE - define dependencies / build path</h4>
         <ul>
-            <li>Import the following packages:</li>
-            <li><code>examples.service.api;version="[1.0.0,2.0.0)"</code></li>
-            <li><code>org.osgi.service.component.annotations;\
-            version="1.2.0";resolution:=optional"</code></li>
-            <img src="images/pde/22-import-packages.png" height="360px" />
+            <li>Import package: <code>examples.service.api</code></li>
+            <li>Specify the upper bound version: <code>2.0.0</code></li>
+            <li>Import package: <code>org.osgi.service.component.annotations</code></li>
+            <li>Specify resolution: <code>optional</code></li>
+            <img src="images/pde/12-import-packages_2.png" height="280px" />
+            <img src="images/pde/12-import-packages_3.png" height="280px" />
         </ul>
+    </section>
+
+    <section>
+        <h4>PDE - define dependencies / build path</h4>
+        <img src="images/pde/22-import-packages.png" height="520px" />
     </section>
 
     <section>
@@ -342,13 +350,6 @@ public class StringInverterCommand {
     </section>
 
     <section>
-        <h4>PDE - Consumer Bundle</h4>
-        <p>Consumer Bundle successfully created if it look like this.</p>
-        <img src="images/pde/23-consumer-bundle_1.png" height="340px" />
-        <img src="images/pde/24-consumer-bundle_2.png" height="340px" />
-    </section>
-
-    <section>
         <h4>PDE - @Reference - Event Strategy</h4>
         <p>update the StringInverterCommand</p>
         <pre><code class="hljs" data-trim contenteditable>
@@ -357,7 +358,7 @@ public class StringInverterCommand {
                 this.modifier = modifier;
             }
             
-            void updatedStringModifier(StringModifier modifier, Map<String, ?> properties) {
+            void updatedStringModifier(StringModifier modifier, Map&lt;String, ?&gt; properties) {
                 properties.forEach((k,v) -> {System.out.println(k + " : " + v);} );
             }
             
@@ -385,10 +386,10 @@ public class StringInverterCommand {
     </section>
 
     <section>
-        <h4>PDE - create launch configuration 1/2</h4>
+        <h4>PDE - create launch configuration 1/3</h4>
         <ul>
             <li>select from menu: <code>Run -> Run configurations ...</code></li>
-            <li>create OSGi Framework named <code>simple_runtime</code></li>
+            <li>right-click OSGi Framework, select New and specify name <code>simple_runtime</code></li>
             <li>select the Default Auto-Start: true</li>
             
             <li>remove all and then select only the following bundles
@@ -424,6 +425,24 @@ public class StringInverterCommand {
                         <td>org.apache.felix.gogo.shell</td>
                         <td>OSGi console shell</td>
                     </tr>
+                </tbody>
+            </table></small>
+            </li>
+        </ul>
+    </section>
+
+    <section>
+        <h4>PDE - create launch configuration 2/3</h4>
+        <ul>
+            <li>additionally add the following bundles
+            <small><table>
+                <thead>
+                    <tr>
+                        <th>bundle</th>
+                        <th>purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
                     <tr>
                         <td>org.eclipse.equinox.console</td>
                         <td>Equinox OSGi console</td>
@@ -451,11 +470,8 @@ public class StringInverterCommand {
     </section>
 
     <section>
-        <h4>PDE - create launch configuration 2/2</h4>
-        <ul>
-            <li>your launch should look like</li>
-            <img src="images/pde/30_simple-runtime-launch.png" height="540px" />
-        </ul>
+        <h4>PDE - create launch configuration 3/3</h4>
+        <img src="images/pde/30_simple-runtime-launch.png" height="580px" />
     </section>
 
     <section>
@@ -850,6 +866,301 @@ public class StringInverterCommand {
         <img src="images/bnd/52_standalone-runtime-launch.png" height="200px" />
     </section>
 </section>
+
+<section id="exec2-osgi-console">
+
+    <section data-markdown>
+        #### Excercise 2 - OSGi console
+    </section>
+
+    <section>
+    <h4>Excercise 2 - Lifecycle Methods</h4>
+        <ul>
+            <li>Add <code>@Activate</code> and <code>@Deactivate</code> methods to <br>
+            <code>StringInverterImpl</code> and <code>StringModifierCommand</code></li>
+        </ul>
+        <pre><code class="hljs" data-trim contenteditable>
+@Activate
+void activate() {
+    System.out.println(this.getClass() + " activated");
+}
+
+@Deactivate
+void deactivate() {
+    System.out.println(this.getClass() + " deactivated");
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Excercise 2 - OSGi console</h4>
+        <ul>
+            <li>Execute in OSGi shell and inspect the behaviour
+            <small><table>
+                <thead>
+                    <tr>
+                        <th>Description</th>
+                        <th>Equinox in PDE</th>
+                        <th>Felix in bndtools</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>List all components to see state and component id</td>
+                        <td><code>list</code></td>
+                        <td><code>scr:list</code></td>
+                    </tr>
+                    <tr>
+                        <td>Execute the modify command to activate the components and check the console output</td>
+                        <td><code>modify test</code></td>
+                        <td><code>modify test</code></td>
+                    </tr>
+                    <tr>
+                        <td>List all components again to verify the state change</td>
+                        <td><code>list</code></td>
+                        <td><code>scr:list</code></td>
+                    </tr>
+                    <tr>
+                        <td>Disable StringInverterImpl and check the console output</td>
+                        <td><code>dis</code></td>
+                        <td><code>scr:disable examples.bndtools.<br>
+                        impl.inverter.StringInverterImpl</code></td>
+                    </tr>
+                    <tr>
+                        <td>List all components again to verify the state change</td>
+                        <td><code>list</code></td>
+                        <td><code>scr:list</code></td>
+                    </tr>
+                    <tr>
+                        <td>Enable StringInverterImpl and check the console output</td>
+                        <td><code>en &lt;component id&gt;</code></td>
+                        <td><code>scr:enable examples.bndtools.<br>
+                        impl.inverter.StringInverterImpl</code></td>
+                    </tr>
+                    <tr>
+                        <td>List all components again to verify the state change</td>
+                        <td><code>list</code></td>
+                        <td><code>scr:list</code></td>
+                    </tr>
+                </tbody>
+            </table></small>
+            </li>
+        </ul>
+    </section>
+</section>
+
+<section id="exec3-configuration">
+
+   <section data-markdown>
+        #### Excercise 3 - Configuration
+        
+        * Configurable Service
+        * Configuration Command
+        * Update StringModifierCommand
+        * Launch IDE
+        * Optional exercise
+    </section>
+
+    <section>
+        <h4>PDE - create project for Configurable Component</h4>
+        <ul>
+            <li>select from menu: <code>File -> New -> Plug-in Project</code></li>
+            <li>Project name: <code>examples.pde.impl.configurable</code></li>
+            <img src="images/pde/50_create-prj-configurable.png" height="440px" />
+            <img src="images/pde/51_create-prj-configurable.png" height="440px" />
+        </ul>
+    </section>
+
+    <section>
+        <h4>PDE - define dependencies / build path</h4>
+        <ul>
+            <li>Import package: <code>examples.service.api</code></li>
+            <li>Specify the upper bound version: <code>2.0.0</code></li>
+            <li>Import package: <code>org.osgi.service.component.annotations</code></li>
+            <li>Specify resolution: <code>optional</code></li>
+            <img src="images/pde/12-import-packages_2.png" height="280px" />
+            <img src="images/pde/12-import-packages_3.png" height="280px" />
+        </ul>
+    </section>
+
+    <section>
+        <h4>PDE - define component properties [ DS < 1.3 ]</h4>
+        <p>
+            copy the following snippet and paste it into src folder
+        </p>
+        <pre><code class="hljs" data-trim contenteditable>
+package examples.pde.impl.configurable;
+
+public interface Constants {
+	String PREFIX = "prefix";
+	String SUFFIX = "suffix";
+	String ITERATION = "iteration";
+	String UPPER_CASE = "uppercase";
+}
+        </code></pre>
+    </section>
+
+    <section data-markdown>
+        #### PDE - Implementation Configurable Component
+        
+        * create package ```examples.pde.impl.configurable```
+        * create inside a class ```StringManipulator implements StringModifier```
+        * set property configuration PID to manipulator
+        * set the configuration policy to REQUIRE
+        * store the Component Properties in a member variable via @Activate and @Modified
+        * implement ```modify(String)``` to create a modified version of the input String taking the configuration into account
+    </section>
+    
+    <section>
+        <h4>PDE - Implementation Configurable Component</h4>
+        <p>
+            if you did not implemented it yourself, </br>
+            copy the following snippet and paste it into src folder
+        </p>
+        <pre><code class="hljs" data-trim contenteditable>
+package examples.pde.impl.configurable;
+import java.util.Map;
+import org.osgi.service.component.annotations.*;
+import examples.service.api.StringModifier;
+
+@Component(
+	    configurationPid="manipulator",
+	    configurationPolicy=ConfigurationPolicy.REQUIRE
+	)
+public class StringManipulator implements StringModifier {
+
+	Map&lt;String, Object&gt; config;
+	
+	@Activate
+	void activate(Map&lt;String, Object&gt; config) {
+		System.out.println(this.getClass() + " activated");
+		this.config = config;
+	}
+	
+	@Modified
+	void modified(Map&lt;String, Object&gt; config) {
+		this.config = config;
+	}
+
+	public void deactivate() {
+		System.out.println(this.getClass() + " de-activated");
+	}
+
+	@Override
+	public String modify(String input) {
+		String prefix = (String) config.getOrDefault(Constants.PREFIX, "");
+		String suffix = (String) config.getOrDefault(Constants.SUFFIX, "");
+		Integer iteration = (Integer) config.getOrDefault(Constants.ITERATION, Integer.valueOf(1));
+		Boolean upperCase = (Boolean) config.getOrDefault(Constants.UPPER_CASE, Boolean.FALSE);
+		
+		StringBuilder builder = new StringBuilder();
+		builder.append(prefix);
+		
+		for (int i = 0; i < iteration; i++) {
+			builder.append(upperCase ? input.toUpperCase() : input);
+		}
+		builder.append(suffix);
+		return builder.toString();
+	}
+}
+        </code></pre>
+    </section>
+
+    <section data-markdown>
+        #### PDE - Configuration Command
+        * open MANIFEST.MF in examples.pde.impl.configurable
+        * switch to the Dependencies tab
+        * add org.osgi.service.cm to the Imported Packages </br>(don‘t forget the upper bounds!)
+        * create a Gogo Shell command in examples.pde.impl.configurable package
+        * reference the ConfigurationAdmin service
+        * specify the osgi.command.function=config and implement the corresponding method
+    </section>
+
+    <section>
+        <h4>PDE - Configuration Command</h4>
+        <p>
+            if you did not implemented it yourself, </br>
+            copy the following snippet and paste it into src folder
+        </p>
+        <pre><code class="hljs" data-trim contenteditable>
+package examples.pde.impl.configurable;
+
+import java.io.IOException;
+import java.util.Dictionary;
+import java.util.Hashtable;
+
+import org.osgi.service.cm.Configuration;
+import org.osgi.service.cm.ConfigurationAdmin;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+
+@Component(
+		property = { 
+				"osgi.command.scope:String=zExamplesModifier",
+				"osgi.command.function:String=config" 
+		}, 
+		service = ConfigCommand.class)
+public class ConfigCommand {
+
+	ConfigurationAdmin cm;
+	
+	@Reference
+	void setConfigAdmin(ConfigurationAdmin cm) {
+		this.cm = cm;
+	}
+	
+	public void config(String key, String value) throws IOException {
+		if (Constants.PREFIX.equals(key) || Constants.SUFFIX.equals(key)) {
+			Configuration config = cm.getConfiguration("manipulator");
+			Dictionary&lt;String, Object&gt; props = null;
+			if (config != null && config.getProperties() != null) {
+				props = config.getProperties();
+			} else {
+				props = new Hashtable&lt;&gt;();
+			}
+			props.put(key, value);
+			config.update(props);
+		} else {
+			System.err.println("invalid key to value mapping");
+		}
+	}
+	
+	public void config(String key, Integer value) throws IOException {
+		if (Constants.ITERATION.equals(key)) {
+			Configuration config = cm.getConfiguration("manipulator");
+			Dictionary&lt;String, Object&gt; props = null;
+			if (config != null && config.getProperties() != null) {
+				props = config.getProperties();
+			} else {
+				props = new Hashtable&lt;&gt;();
+			}
+			props.put(key, value);
+			config.update(props);
+		} else {
+			System.err.println("invalid key to value mapping");
+		}
+	}
+	
+	public void config(String key, Boolean value) throws IOException {
+		if (Constants.UPPER_CASE.equals(key)) {
+			Configuration config = cm.getConfiguration("manipulator");
+			Dictionary&lt;String, Object&gt; props = null;
+			if (config != null && config.getProperties() != null) {
+				props = config.getProperties();
+			} else {
+				props = new Hashtable&lt;&gt;();
+			}
+			props.put(key, value);
+			config.update(props);
+		} else {
+			System.err.println("invalid key to value mapping");
+		}
+	}
+}
+        </code></pre>
+    </section>
+</section>
+
 
 <section id="references">
     <section id="standards" data-markdown>
