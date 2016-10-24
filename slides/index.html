@@ -746,7 +746,7 @@ public class StringInverterCommand {
     </section>
 </section>
 
-<section id="exec1-bnd-consumer">
+<section id="exec1-bnd-launch-ide">
     <section data-markdown>
         #### Excercise 1 - bndtools - Simple Service
         
@@ -761,7 +761,7 @@ public class StringInverterCommand {
         <h4>bndtools - Launch from IDE - prepare</h4>
         <ul>
             <li>Open the file <code>launch.bndrun</code> from project<code>examples.bndtools.impl.inverter</code></li>
-            <li>Select OSGi Framework <code>org.apache.felix.framework;version='[5.4.0,5.4.0]'</code>
+            <li>Select OSGi Framework <code>org.apache.felix.framework;version='[5.4.0,5.4.0]'</code></li>
             <li>Select Execution Environment: <code>JavaSE-1.8</code></li>
             <li>In the Run Requirements add the following bundles
             <small><table>
@@ -784,9 +784,18 @@ public class StringInverterCommand {
                         <td>examples.pde.service.api</td>
                         <td>application service api</td>
                     </tr>
-                <tbody>
+                    <tr>
+                        <td>org.apache.felix.configadmin</td>
+                        <td>Apache Configuration Admin </br><small> only required due to bug in Apache Felix SCR 2.0.6</small></td>
+                    </tr>
+                    <tr>
+                        <td>org.apache.felix.metatype</td>
+                        <td>Apache OSGi Metatype Service </br><small> only required due to bug in Apache Felix SCR 2.0.6</small></td>
+                    </tr>
+                </tbody>
             </table></small>
-            <img src="images/bnd/40_add-bundle-requirements.png" height="280px" />
+            <img src="images/bnd/40_add-bundle-requirements.png" height="250px" />
+            </li>
         </ul>
     </section>
 
@@ -794,20 +803,53 @@ public class StringInverterCommand {
         <h4>bndtools - Launch from IDE - resolve</h4>
         <ul>
             <li>press the resolve button</li>
-            <img src="images/bnd/41_resolved-bundles.png" height="440px" />
+            <img src="images/bnd/41_resolve.png" height="300px" />
+            <img src="images/bnd/42_resolved-bundles.png" height="340px" />
         </ul>
     </section>
 
     <section>
-        <h4>bndtools - Launch from IDE - resolve</h4>
+        <h4>bndtools - Launch from IDE - run</h4>
         <ul>
-            <li>you can now launch this config via <code>Run OSGi</code> </li>
-            <img src="images/bnd/42_bnd-editor-launch.png" height="440px" />
+            <li>you can now launch this config via button <code>"Run OSGi"</code></li>
+            <li>enter into the console <code>modify example</code></li>
+            <img src="images/bnd/43_bnd-editor-launch.png" height="440px" />
         </ul>
     </section>
-    
 </section>
 
+<section id="exec1-bnd-export">
+    <section data-markdown>
+        #### Excercise 1 - bndtools - Simple Service
+        
+        * Service API
+        * Service Implementation
+        * Service Consumer
+        * Launch from IDE
+        * **Export and launch standalone**
+    </section>
+
+    <section>
+        <h4>bndtools - export "MegaJar"</h4>
+        <ul>
+            <li>start export via button <code>Export</code> on the top-right</li>
+            <li>select executable jar</li>
+            <li>Export to JAR: <code>C:\tmp\inverter.jar</code></li>
+            <img src="images/bnd/50_export-wizard-executable-jar.png" height="300px" />
+            <img src="images/bnd/51_export-wizard-executable-jar_2.png" height="300px" />
+        </ul>
+    </section>
+
+    <section>
+        <h4>bndtools - run stand-alone "MegaJar"</h4>
+        <ul>
+            <li>open a cmd/shell window inside <code>C:\tmp</code></li>
+            <li>launch <code>java -jar inverter.jar</code></li>
+            <li>type in the console <code>modify example</code></li>
+        </ul>
+        <img src="images/bnd/52_standalone-runtime-launch.png" height="200px" />
+    </section>
+</section>
 
 <section id="references">
     <section id="standards" data-markdown>
